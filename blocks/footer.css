@@ -1,0 +1,12 @@
+.footer {
+  text-align: center;
+  padding: 1rem;
+}
+
+.footer__text {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 400;
+  color: rgba(33, 33, 33, 0.7);
+  height: 16px;
+}
