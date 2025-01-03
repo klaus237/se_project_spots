@@ -38,7 +38,7 @@ Spots is a modern web-based portfolio for showcasing various destinations or att
 ## Deployment
 
 You can view the live project on GitHub Pages:
-[Spots on GitHub Pages](https://github.com/klaus237/se_project_spots/index.html)
+[Spots on GitHub Pages](https://klaus237.github.io/se_project_spots)
 
 ## Video
 
