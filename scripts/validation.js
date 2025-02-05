@@ -76,8 +76,10 @@ const setEventListeners = (formElement, config) => {
 // };
 
 const resetValidation = (formEl, inputList, config) => {
+  console.log(inputList);
   inputList.forEach((input) => {
     hideInputError(formEl, input, config);
+    input.classList.remove(config.inputErrorClass);
   });
 
   const buttonElement = formEl.querySelector(config.submitButtonSelector);

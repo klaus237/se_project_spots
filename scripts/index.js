@@ -162,6 +162,7 @@ editModalButton.addEventListener("click", () => {
 cardModalButton.addEventListener("click", () => {
   openModal(cardModal);
   disableButton(cardSubmitBtn, settings); //added
+  resetValidation(cardForm, [cardLinkInput, cardNameInput], settings); //added
 });
 
 editForm.addEventListener("submit", handleEditFormSubmit);
