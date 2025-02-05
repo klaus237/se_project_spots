@@ -25,21 +25,29 @@
   max-width: 730px;
   width: 100%;
   box-sizing: border-box;
-  /* background-color: #fff; */
+  background-color: #fff;
   border-radius: 8px;
   position: relative;
   padding: 36px 50px 32px;
+  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25); */
   /* padding: 32px 50px;
   gap: 32px; */
 }
 
 .modal__content_type_preview {
   padding: 0;
-  width: auto; /* Allow the modal width to fit the image */
-  max-width: 90%; /* Limit the maximum width */
-  max-height: 90%; /* Limit the maximum height */
+  width: auto;
+  max-width: 90%;
+  max-height: 90%;
   border-radius: 8px;
   height: 661px;
+  background-color: unset;
+  /* height: auto; */
+}
+
+.modal__submit-btn_disabled {
+  cursor: default !important;
+  opacity: 0.5;
 }
 
 .modal__image {
@@ -65,6 +73,9 @@
   margin-top: 8px; /* Add space between image and caption */
   max-width: 214px;
   left: 223px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal__close-btn {
@@ -122,6 +133,14 @@
   border: 1px solid #212121;
 }
 
+.modal__input::placeholder {
+  color: #212121;
+  opacity: 30%;
+}
+.modal__input_type_error {
+  border: 1px solid rgba(255, 0, 0, 0.6);
+}
+
 .modal__submit-btn {
   width: 156px;
   height: 52px;
@@ -140,6 +159,15 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
+.modal__error {
+  display: block;
+  color: rgba(255, 0, 0, 0.7);
+  font-size: 16px;
+  font-weight: 500;
+  display: block;
+  /* margin-top: 8px; */
+}
+
 @media screen and (max-width: 627px) {
   .modal {
     padding: 0 10px;
@@ -155,7 +183,7 @@
   }
   .modal__close-btn {
     top: 12px;
-    right: 12px;
+    right: 10px;
   }
 
   .modal__label {
@@ -164,19 +192,35 @@
   .modal__submit-btn {
     width: 100%;
   }
+  /* .modal__content_type_preview {
+    border-radius: 4px;
+    padding: 0;
+    background-color: unset;
+    height: auto;
+  } */
   .modal__content_type_preview {
     width: 288px;
-    height: 426.57px;
+    height: auto;
+    padding: 0;
     border-radius: 4px;
+    background-color: unset;
+    box-sizing: border-box;
+    max-width: 320px;
+  }
+
+  .modal__close-btn_type_preview {
+    top: -37px;
+    right: 0;
   }
   .modal__caption {
     font-size: 16px;
     line-height: 19.2px;
   }
 
-  .modal__close-btn {
-    width: 40px;
-    height: 40px;
-    top: -27px;
+  .modal__image {
+    max-width: 288px;
+    height: auto;
+    object-fit: contain;
+    border-radius: inherit;
   }
 }
