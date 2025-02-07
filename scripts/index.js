@@ -36,7 +36,7 @@ const cardModal = document.querySelector("#add-card-modal");
 const cardModalCloseButton = cardModal.querySelector(".modal__close-btn");
 const cardForm = document.forms["add-card-form"];
 const cardNameInput = cardModal.querySelector("#add-card-name-input");
-const cardSubmitBtn = cardModal.querySelector(".modal__button");
+const cardSubmitBtn = cardModal.querySelector(".modal__submit-btn");
 const cardLinkInput = cardModal.querySelector("#add-card-link-input");
 const nameInput = editModal.querySelector("#profile-name-input");
 const descriptionInput = editModal.querySelector("#profile-description-input");
@@ -76,17 +76,10 @@ function handleEscClose(evt) {
   }
 }
 
-// closeButtons.forEach((button) => {
-//   const modal = button.closest(".modal");
-//   button.addEventListener("click", () => closeModal(modal));
-// });
 closeButtons.forEach((button) => {
   const modal = button.closest(".modal");
   button.addEventListener("click", () => {
     closeModal(modal);
-    if (modal === cardModal) {
-      resetValidation(cardForm, [cardNameInput, cardLinkInput], settings);
-    }
   });
 });
 
@@ -135,7 +128,7 @@ function handleAddCardSubmit(evt) {
   };
   renderCard(inputValues);
   cardForm.reset();
-  resetValidation(cardForm, [cardNameInput, cardLinkInput], settings);
+  // resetValidation(cardForm, [cardNameInput, cardLinkInput], settings);
   disableButton(cardSubmitBtn, settings);
   closeModal(cardModal);
 }
@@ -150,19 +143,10 @@ editModalButton.addEventListener("click", () => {
   openModal(editModal);
 });
 
-// editModalButton.addEventListener("click", () => {
-//   nameInput.value = profileName.textContent;
-//   descriptionInput.value = profileDescription.textContent;
-//   resetValidation(editForm, [nameInput, descriptionInput], settings);
-//   openModal(editModal);
-// });
-// editModalClosebutton.addEventListener("click", () => {
-//   closeModal(editModal);
-// });
 cardModalButton.addEventListener("click", () => {
   openModal(cardModal);
-  disableButton(cardSubmitBtn, settings); //added
-  resetValidation(cardForm, [cardLinkInput, cardNameInput], settings); //added
+  // disableButton(cardSubmitBtn, settings); //added
+  // resetValidation(cardForm, [cardLinkInput, cardNameInput], settings); //added
 });
 
 editForm.addEventListener("submit", handleEditFormSubmit);
