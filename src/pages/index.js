@@ -1,3 +1,16 @@
+import "./index.css";
+import {
+  enableValidation,
+  settings,
+  resetValidation,
+} from "../scripts/validation.js";
+
+import logo from "../images/logo.svg";
+import avatar from "../images/avatar.jpg";
+import pencilIcon from "../images/pencil.svg";
+import plusIcon from "../images/plus.svg";
+import closeIcon from "../images/close.svg";
+
 const initialCards = [
   {
     name: "Val Thorens",
@@ -36,7 +49,7 @@ const cardModal = document.querySelector("#add-card-modal");
 const cardModalCloseButton = cardModal.querySelector(".modal__close-btn");
 const cardForm = document.forms["add-card-form"];
 const cardNameInput = cardModal.querySelector("#add-card-name-input");
-const cardSubmitBtn = cardModal.querySelector(".modal__button");
+const cardSubmitBtn = cardModal.querySelector(".modal__submit-btn");
 const cardLinkInput = cardModal.querySelector("#add-card-link-input");
 const nameInput = editModal.querySelector("#profile-name-input");
 const descriptionInput = editModal.querySelector("#profile-description-input");
@@ -51,6 +64,19 @@ const closeModalButton = previewModal.querySelector(".modal__close-btn");
 const previewModalImageEl = previewModal.querySelector(".modal__image");
 const previewModalCaptionEl = previewModal.querySelector(".modal__caption");
 const closeButtons = document.querySelectorAll(".modal__close-btn");
+
+// Exemple pour injecter les images dans la page
+document.querySelector(".header__logo").src = logo;
+document.querySelector(".profile__avatar").src = avatar;
+
+const editBtn = document.querySelector(".profile__edit-btn img");
+if (editBtn) editBtn.src = pencilIcon;
+
+const addBtn = document.querySelector(".profile__add-btn img");
+if (addBtn) addBtn.src = plusIcon;
+
+const closeBtns = document.querySelectorAll(".modal__close-btn img");
+closeBtns.forEach((btn) => (btn.src = closeIcon));
 
 function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
@@ -76,17 +102,10 @@ function handleEscClose(evt) {
   }
 }
 
-// closeButtons.forEach((button) => {
-//   const modal = button.closest(".modal");
-//   button.addEventListener("click", () => closeModal(modal));
-// });
 closeButtons.forEach((button) => {
   const modal = button.closest(".modal");
   button.addEventListener("click", () => {
     closeModal(modal);
-    if (modal === cardModal) {
-      resetValidation(cardForm, [cardNameInput, cardLinkInput], settings);
-    }
   });
 });
 
@@ -135,7 +154,7 @@ function handleAddCardSubmit(evt) {
   };
   renderCard(inputValues);
   cardForm.reset();
-  resetValidation(cardForm, [cardNameInput, cardLinkInput], settings);
+  // resetValidation(cardForm, [cardNameInput, cardLinkInput], settings);
   disableButton(cardSubmitBtn, settings);
   closeModal(cardModal);
 }
@@ -150,19 +169,10 @@ editModalButton.addEventListener("click", () => {
   openModal(editModal);
 });
 
-// editModalButton.addEventListener("click", () => {
-//   nameInput.value = profileName.textContent;
-//   descriptionInput.value = profileDescription.textContent;
-//   resetValidation(editForm, [nameInput, descriptionInput], settings);
-//   openModal(editModal);
-// });
-// editModalClosebutton.addEventListener("click", () => {
-//   closeModal(editModal);
-// });
 cardModalButton.addEventListener("click", () => {
   openModal(cardModal);
-  disableButton(cardSubmitBtn, settings); //added
-  resetValidation(cardForm, [cardLinkInput, cardNameInput], settings); //added
+  // disableButton(cardSubmitBtn, settings); //added
+  // resetValidation(cardForm, [cardLinkInput, cardNameInput], settings); //added
 });
 
 editForm.addEventListener("submit", handleEditFormSubmit);
@@ -179,3 +189,4 @@ document.querySelectorAll(".modal").forEach((modal) => {
     }
   });
 });
+enableValidation(settings);
