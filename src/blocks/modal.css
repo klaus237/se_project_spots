@@ -29,9 +29,6 @@
   border-radius: 8px;
   position: relative;
   padding: 36px 50px 32px;
-  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25); */
-  /* padding: 32px 50px;
-  gap: 32px; */
 }
 
 .modal__content_type_preview {
@@ -167,6 +164,69 @@
   display: block;
   /* margin-top: 8px; */
 }
+/** delete modal */
+
+.modal--delete .modal__content {
+  width: 630px;
+  height: 172px;
+  border-radius: 8px;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.modal__title--delete {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+.modal__close-btn--delete {
+  top: 0px;
+  background-image: url("../images/close_icon.svg");
+  right: -52.5px;
+  opacity: 1;
+}
+.modal__form--delete {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.modal__submit-btn--delete {
+  width: 156px;
+  height: 52px;
+  background-color: #ff6565;
+  color: #212121;
+  border: none;
+  padding: 18px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.modal__submit-btn--delete:hover {
+  background-color: #ff3333;
+  cursor: pointer;
+}
+
+.modal__submit-btn--cancel {
+  width: 156px;
+  height: 52px;
+  background-color: #ffffff;
+  color: #212121;
+  border: 1px solid #212121;
+  padding: 18px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 500;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+.modal__submit-btn--cancel:hover {
+  background-color: #212121;
+  color: #ffffff;
+}
 
 @media screen and (max-width: 627px) {
   .modal {
@@ -222,5 +282,44 @@
     height: auto;
     object-fit: contain;
     border-radius: inherit;
+  }
+  /* Adjust modal size */
+  .modal--delete .modal__content {
+    width: 300px;
+    height: auto;
+    gap: 20px;
+    padding: 12px;
+  }
+
+  /* Adjust modal title font size */
+  .modal__title--delete {
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    text-align: center;
+  }
+
+  /* Adjust close button position */
+  .modal__close-btn--delete {
+    top: -37px;
+    right: 0;
+  }
+
+  /* Adjust form layout */
+  .modal__form--delete {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .modal__submit-btn--delete {
+    width: 156px;
+    height: 52px;
+  }
+  .modal__submit-btn--cancel {
+    width: 156px;
+    height: 52px;
   }
 }
