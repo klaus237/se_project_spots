@@ -3,6 +3,7 @@ import {
   enableValidation,
   settings,
   resetValidation,
+  disableButton,
 } from "../scripts/validation.js";
 
 import Api from "../utils/Api.js";
@@ -79,8 +80,8 @@ const nameInput = editModal.querySelector("#profile-name-input");
 const descriptionInput = editModal.querySelector("#profile-description-input");
 const cardModalBtn = document.querySelector(".profile__new-post-btn");
 const editModalButton = document.querySelector(".profile__edit-btn");
-// const profileName = document.querySelector(".profile__name");
-// const profileDescription = document.querySelector(".profile__description");
+const profileName = document.querySelector(".profile__name");
+const profileDescription = document.querySelector(".profile__description");
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 const previewModal = document.querySelector("#preview-modal");
@@ -147,8 +148,8 @@ function handleEscClose(evt) {
 }
 
 function updateUserInfo(user) {
-  const profileName = document.querySelector(".profile__name");
-  const profileDescription = document.querySelector(".profile__description");
+  // const profileName = document.querySelector(".profile__name");
+  // const profileDescription = document.querySelector(".profile__description");
 
   profileName.textContent = user.name; // Update user name
   profileDescription.textContent = user.about; // Update description/bio
@@ -207,7 +208,7 @@ function getCardElement(data) {
   deleteButton.addEventListener("click", (evt) =>
     handleDeleteCard(cardElement, data._id)
   );
-  // deleteForm.addEventListener("submit", handleDeleteSubmit);
+  deleteForm.addEventListener("submit", handleDeleteSubmit);
 
   cardImageEl.addEventListener("click", () => {
     openModal(previewModal);

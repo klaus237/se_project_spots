@@ -88,7 +88,7 @@ export const resetValidation = (formEl, inputList, config) => {
   }
 };
 
-const disableButton = (buttonElement, config) => {
+export const disableButton = (buttonElement, config) => {
   if (!buttonElement) return;
   buttonElement.disabled = true;
   buttonElement.classList.add(config.inactiveButtonClass);
