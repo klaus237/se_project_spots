@@ -10,6 +10,7 @@
   height: 190px; /* Ensure this is the same size as the profile image */
   overflow: hidden; /* klaus*/
   border-radius: 6px;
+  margin-right: 15px;
 }
 .profile__avatar {
   width: 100%;

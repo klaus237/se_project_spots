@@ -2,7 +2,7 @@ export function setButtonText(
   btn,
   isLoading,
   defaultText = "Save",
-  loadingText = "Saving"
+  loadingText = "Saving..."
 ) {
   if (isLoading) {
     btn.textContent = loadingText; // Change text to "Saving"

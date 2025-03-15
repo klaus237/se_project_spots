@@ -79,8 +79,8 @@ const nameInput = editModal.querySelector("#profile-name-input");
 const descriptionInput = editModal.querySelector("#profile-description-input");
 const cardModalBtn = document.querySelector(".profile__new-post-btn");
 const editModalButton = document.querySelector(".profile__edit-btn");
-const profileName = document.querySelector(".profile__name");
-const profileDescription = document.querySelector(".profile__description");
+// const profileName = document.querySelector(".profile__name");
+// const profileDescription = document.querySelector(".profile__description");
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 const previewModal = document.querySelector("#preview-modal");
@@ -91,6 +91,7 @@ const closeButtons = document.querySelectorAll(".modal__close-btn");
 
 const avatarModal = document.querySelector("#avatar-modal");
 const avatarForm = avatarModal.querySelector(".modal__form");
+
 const avatarSubmitBtn = avatarModal.querySelector(".modal__button");
 
 const avatarInput = avatarModal.querySelector("#profile-avatar-input");
@@ -102,9 +103,15 @@ const deleteForm = deleteModal.querySelector(".modal__form");
 
 let selectedCard, selectedCardId;
 
+const cancelButton = document.querySelector(".modal__submit-btn--cancel");
+
+cancelButton.addEventListener("click", () => {
+  closeModal(deleteModal); // Close the delete modal
+});
+
 // Exemple pour injecter les images dans la page
 document.querySelector(".header__logo").src = logo;
-document.querySelector(".profile__avatar").src = avatar;
+// document.querySelector(".profile__avatar").src = avatar;
 
 const editBtn = document.querySelector(".profile__edit-btn img");
 if (editBtn) editBtn.src = pencilIcon;
@@ -200,7 +207,7 @@ function getCardElement(data) {
   deleteButton.addEventListener("click", (evt) =>
     handleDeleteCard(cardElement, data._id)
   );
-  deleteForm.addEventListener("submit", handleDeleteSubmit);
+  // deleteForm.addEventListener("submit", handleDeleteSubmit);
 
   cardImageEl.addEventListener("click", () => {
     openModal(previewModal);
@@ -211,15 +218,15 @@ function getCardElement(data) {
   return cardElement;
 }
 
-function disableButton(button, settings) {
-  button.setAttribute("disabled", true);
-  button.classList.add(settings.inactiveButtonClass);
-}
+// function disableButton(button, settings) {
+//   button.setAttribute("disabled", true);
+//   button.classList.add(settings.inactiveButtonClass);
+// }
 
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
   const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true, "Save", "Saving");
+  setButtonText(submitBtn, true);
   api
     .editAvatarInfo(avatarInput.value)
     .then((data) => {
@@ -234,7 +241,7 @@ function handleAvatarFormSubmit(evt) {
     })
     .finally(() => {
       // Reset the button text to "Save" once the request is complete
-      setButtonText(submitBtn, false, "Save", "Saving");
+      setButtonText(submitBtn, false);
     });
 }
 
@@ -277,7 +284,7 @@ function handleDeleteCard(cardElement, cardId) {
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
   const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true, "Delete", "Deleting");
+  setButtonText(submitBtn, true, "Delete", "Deleting...");
   api
     .deleteCard(selectedCardId)
     .then(() => {
@@ -288,14 +295,14 @@ function handleDeleteSubmit(evt) {
       console.log("Failed to delete card:", err);
     })
     .finally(() => {
-      setButtonText(submitBtn, false, "Delete", "Deleting");
+      setButtonText(submitBtn, false, "Delete", "Deleting...");
     });
 }
 
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
   const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true, "Save", "Saving");
+  setButtonText(submitBtn, true);
   const inputValues = {
     link: cardLinkInput.value,
     name: cardNameInput.value,
@@ -313,7 +320,7 @@ function handleAddCardSubmit(evt) {
       console.log("Failed to add new card:", err); // Handle errors (like invalid input or server issue)
     })
     .finally(() => {
-      setButtonText(submitBtn, true, "Save", "Saving");
+      setButtonText(submitBtn, true);
     });
 }
 
