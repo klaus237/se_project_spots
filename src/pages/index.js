@@ -14,37 +14,9 @@ import pencilIcon from "../images/pencil.svg";
 import plusIcon from "../images/plus.svg";
 import closeIcon from "../images/close.svg";
 import { setButtonText } from "../utils/Helpers.js";
+import { handleSubmit, renderLoading } from "../utils/utils.js";
 // const initialCards = [
-//   {
-//     name: "Val Thorens",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg",
-//   },
-//   {
-//     name: "Restaurant terrace",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg",
-//   },
 
-//   {
-//     name: "An outdoor cafe",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg",
-//   },
-//   {
-//     name: "A very long bridge, over the forest and through the trees",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg",
-//   },
-//   {
-//     name: "Tunnel with morning light",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg",
-//   },
-//   {
-//     name: "Mountain house",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
-//   },
-//   {
-//     name: "Val bridge",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg",
-//   },
-// ];
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
@@ -148,13 +120,10 @@ function handleEscClose(evt) {
 }
 
 function updateUserInfo(user) {
-  // const profileName = document.querySelector(".profile__name");
-  // const profileDescription = document.querySelector(".profile__description");
-
-  profileName.textContent = user.name; // Update user name
-  profileDescription.textContent = user.about; // Update description/bio
-  profileAvatar.src = user.avatar; // Update profile picture
-  profileAvatar.alt = user.name; // Set alt text for accessibility
+  profileName.textContent = user.name;
+  profileDescription.textContent = user.about;
+  profileAvatar.src = user.avatar;
+  profileAvatar.alt = user.name;
 }
 
 closeButtons.forEach((button) => {
@@ -192,10 +161,6 @@ function getCardElement(data) {
   cardImageEl.alt = data.name;
   cardNameEl.textContent = data.name;
 
-  // cardLikedBtn.addEventListener("click", () => {
-  //   cardLikedBtn.classList.toggle("card__like-btn_liked");
-  // });
-
   if (data.isLiked) {
     cardLikedBtn.classList.add("card__like-btn_liked");
   } else {
@@ -208,7 +173,6 @@ function getCardElement(data) {
   deleteButton.addEventListener("click", (evt) =>
     handleDeleteCard(cardElement, data._id)
   );
-  deleteForm.addEventListener("submit", handleDeleteSubmit);
 
   cardImageEl.addEventListener("click", () => {
     openModal(previewModal);
@@ -218,61 +182,41 @@ function getCardElement(data) {
   });
   return cardElement;
 }
-
-// function disableButton(button, settings) {
-//   button.setAttribute("disabled", true);
-//   button.classList.add(settings.inactiveButtonClass);
-// }
+deleteForm.addEventListener("submit", handleDeleteSubmit);
 
 function handleAvatarFormSubmit(evt) {
-  evt.preventDefault();
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true);
-  api
-    .editAvatarInfo(avatarInput.value)
-    .then((data) => {
-      // Update UI with new user info
-      console.log(data.avatar);
+  function makeRequest() {
+    return api
+      .editAvatarInfo(avatarInput.value)
+      .then((data) => {
+        profileAvatar.src = data.avatar;
+        closeModal(avatarModal);
+      })
+      .catch((err) => {
+        console.log("Failed to update avatar:", err);
+      });
+  }
 
-      profileAvatar.src = data.avatar;
-      closeModal(avatarModal);
-    })
-    .catch((err) => {
-      console.log("Failed to update avatar:", err);
-    })
-    .finally(() => {
-      // Reset the button text to "Save" once the request is complete
-      setButtonText(submitBtn, false);
-    });
+  handleSubmit(makeRequest, evt, "Saving...");
 }
 
 function handleEditProfileSubmit(evt) {
-  evt.preventDefault();
-  const submitBtn = evt.submitter;
+  function makeRequest() {
+    const newName = nameInput.value;
+    const newAbout = descriptionInput.value;
 
-  //submitBtn.textContent = "Saving...";
-
-  setButtonText(submitBtn, true);
-
-  // Get user input
-  const newName = nameInput.value;
-  const newAbout = descriptionInput.value;
-
-  // Update user info on the server
-  api
-    .editUserInfo({ name: newName, about: newAbout })
-    .then((updatedUser) => {
-      // Update UI with new user info
-      profileName.textContent = updatedUser.name;
-      profileDescription.textContent = updatedUser.about;
-      closeModal(editModal);
-    })
-    .catch((err) => {
-      console.log("Failed to update user info:", err);
-    })
-    .finally(() => {
-      setButtonText(submitBtn, false);
-    });
+    return api
+      .editUserInfo({ name: newName, about: newAbout })
+      .then((updatedUser) => {
+        profileName.textContent = updatedUser.name;
+        profileDescription.textContent = updatedUser.about;
+        closeModal(editModal);
+      })
+      .catch((err) => {
+        console.log("Failed to update user info:", err);
+      });
+  }
+  handleSubmit(makeRequest, evt);
 }
 
 function handleDeleteCard(cardElement, cardId) {
@@ -283,46 +227,39 @@ function handleDeleteCard(cardElement, cardId) {
 }
 
 function handleDeleteSubmit(evt) {
-  evt.preventDefault();
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true, "Delete", "Deleting...");
-  api
-    .deleteCard(selectedCardId)
-    .then(() => {
-      selectedCard.remove();
-      closeModal(deleteModal);
-    })
-    .catch((err) => {
-      console.log("Failed to delete card:", err);
-    })
-    .finally(() => {
-      setButtonText(submitBtn, false, "Delete", "Deleting...");
-    });
+  function makeRequest() {
+    return api
+      .deleteCard(selectedCardId)
+      .then(() => {
+        selectedCard.remove();
+        closeModal(deleteModal);
+      })
+      .catch((err) => {
+        console.log("Failed to delete card:", err);
+      });
+  }
+  handleSubmit(makeRequest, evt, "Deleting...");
 }
 
 function handleAddCardSubmit(evt) {
-  evt.preventDefault();
-  const submitBtn = evt.submitter;
-  setButtonText(submitBtn, true);
-  const inputValues = {
-    link: cardLinkInput.value,
-    name: cardNameInput.value,
-  };
-  api
-    .createCard(inputValues) // Assuming you have a 'createCard' method in the Api class
-    .then((newCard) => {
-      // Add the new card to the page
-      renderCard(newCard, "prepend");
-      cardForm.reset();
-      disableButton(cardSubmitBtn, settings);
-      closeModal(cardModal);
-    })
-    .catch((err) => {
-      console.log("Failed to add new card:", err); // Handle errors (like invalid input or server issue)
-    })
-    .finally(() => {
-      setButtonText(submitBtn, true);
-    });
+  function makeRequest() {
+    const inputValues = {
+      link: cardLinkInput.value,
+      name: cardNameInput.value,
+    };
+    return api
+      .createCard(inputValues)
+      .then((newCard) => {
+        renderCard(newCard, "prepend");
+        cardForm.reset();
+        disableButton(cardSubmitBtn, settings);
+        closeModal(cardModal);
+      })
+      .catch((err) => {
+        console.log("Failed to add new card:", err);
+      });
+  }
+  handleSubmit(makeRequest, evt);
 }
 
 editModalButton.addEventListener("click", () => {
@@ -340,7 +277,7 @@ cardModalButton.addEventListener("click", () => {
 });
 
 avatarModalButton.addEventListener("click", () => {
-  console.log("Avatar edit button clicked!", avatarModal); // Check if this logs
+  console.log("Avatar edit button clicked!", avatarModal);
   openModal(avatarModal);
 });
 
